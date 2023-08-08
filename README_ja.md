@@ -11,7 +11,7 @@
 | .Net | 4.x, Standard 2.1 |
 
 ## ConstExpressionの実行例
-### 記述したコード
+### 実装例
 ```MyConstExpression.cs
 using Katuusagi.ConstExpressionForUnity;
 
@@ -53,7 +53,7 @@ public static class Test
 
 ## 性能
 ### エディタ上の計測コード
-[テストコード](https://github.com/Katsuya100/ConstExpressionForUnity/packages/Tests/Runtime/ConstExpressionPerformanceTest.cs)  
+[テストコード](packages/Tests/Runtime/ConstExpressionPerformanceTest.cs)  
 エラトステネスの篩による素数計算を複数回行っています。
 
 #### 結果
@@ -73,7 +73,7 @@ public static class Test
 
 #### うまくいかない場合
 上記方法は、gitがインストールされていない環境ではうまく動作しない場合があります。
-[Releases](https://github.com/Katsuya100/ConstExpressionForUnity/releases)から該当のバージョンの`com.katuusagi.fixedstring.tgz`をダウンロードし
+[Releases](https://github.com/Katsuya100/ConstExpressionForUnity/releases)から該当のバージョンの`com.katuusagi.constexpressionforunity.tgz`をダウンロードし
 [Package Manager > + > Add package from tarball...]を使ってインストールしてください。
 
 #### それでもうまくいかない場合
@@ -89,7 +89,7 @@ public static class Test
 4. アセット名を設定します。（例:`ConstExpressionEntry.asmref`）
 5. 4のアセットをクリックしInspector上で`Assembly Definition`に`ConstExpressionEntry`を設定します。
 
-#### 関数を実装する
+#### 計算関数を実装する
 ConstExpression用アセンブリのフォルダ以下に下記のようにスクリプトを実装する。
 ```.cs
 using Katuusagi.ConstExpressionForUnity;
@@ -115,7 +115,7 @@ public static class MyConstExpression
 `ConstExpression`属性はstatic関数にのみつけることができます。
 
 #### 引数
-`ConstExpression`属性は以下の引数を持つ関数にのみつけることができます。  
+`ConstExpression`属性は以下の引数型を持つ関数にのみつけることができます。  
  <table>
     <tr>
       <td>string</td>
@@ -160,7 +160,7 @@ MyConstExpression.Add(l, r);
 ```
 
 #### 戻り値
-`ConstExpression`属性は以下の戻り値を持つ関数にのみつけることができます。  
+`ConstExpression`属性は以下の戻り値型を持つ関数にのみつけることができます。  
 
  <table>
     <tr>
