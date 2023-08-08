@@ -1,0 +1,16 @@
+{
+    "name": "ConstExpressionEntry",
+    "rootNamespace": "",
+    "references": [
+        "GUID:7d9bd8fd69877bc43801e3ecc944a10d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

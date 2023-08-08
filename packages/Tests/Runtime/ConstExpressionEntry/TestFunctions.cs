@@ -1,0 +1,189 @@
+using UnityEngine;
+
+namespace Katuusagi.ConstExpressionForUnity.Tests
+{
+    public static class TestFunctions
+    {
+        [ConstExpression]
+        public static string Threw(string value)
+        {
+            return value;
+        }
+
+        [ConstExpression]
+        public static char Threw(char value)
+        {
+            return value;
+        }
+
+        [ConstExpression]
+        public static sbyte Threw(sbyte value)
+        {
+            return value;
+        }
+
+        [ConstExpression]
+        public static byte Threw(byte value)
+        {
+            return value;
+        }
+
+        [ConstExpression]
+        public static short Threw(short value)
+        {
+            return value;
+        }
+
+        [ConstExpression]
+        public static ushort Threw(ushort value)
+        {
+            return value;
+        }
+
+        [ConstExpression]
+        public static int Threw(int value)
+        {
+            return value;
+        }
+
+        [ConstExpression]
+        public static uint Threw(uint value)
+        {
+            return value;
+        }
+
+        [ConstExpression]
+        public static long Threw(long value)
+        {
+            return value;
+        }
+
+        [ConstExpression]
+        public static ulong Threw(ulong value)
+        {
+            return value;
+        }
+
+        [ConstExpression]
+        public static float Threw(float value)
+        {
+            return value;
+        }
+
+        [ConstExpression]
+        public static double Threw(double value)
+        {
+            return value;
+        }
+
+        [ConstExpression]
+        public static ReadOnlyArray<char> MakeArray(char e1, char e2, char e3)
+        {
+            return new char[] { e1, e2, e3 };
+        }
+
+        [ConstExpression]
+        public static ReadOnlyArray<sbyte> MakeArray(sbyte e1, sbyte e2, sbyte e3)
+        {
+            return new sbyte[] { e1, e2, e3 };
+        }
+
+        [ConstExpression]
+        public static ReadOnlyArray<byte> MakeArray(byte e1, byte e2, byte e3)
+        {
+            return new byte[] { e1, e2, e3 };
+        }
+
+        [ConstExpression]
+        public static ReadOnlyArray<short> MakeArray(short e1, short e2, short e3)
+        {
+            return new short[] { e1, e2, e3 };
+        }
+
+        [ConstExpression]
+        public static ReadOnlyArray<ushort> MakeArray(ushort e1, ushort e2, ushort e3)
+        {
+            return new ushort[] { e1, e2, e3 };
+        }
+
+        [ConstExpression]
+        public static ReadOnlyArray<int> MakeArray(int e1, int e2, int e3)
+        {
+            return new int[] { e1, e2, e3 };
+        }
+
+        [ConstExpression]
+        public static ReadOnlyArray<uint> MakeArray(uint e1, uint e2, uint e3)
+        {
+            return new uint[] { e1, e2, e3 };
+        }
+
+        [ConstExpression]
+        public static ReadOnlyArray<long> MakeArray(long e1, long e2, long e3)
+        {
+            return new long[] { e1, e2, e3 };
+        }
+
+        [ConstExpression]
+        public static ReadOnlyArray<ulong> MakeArray(ulong e1, ulong e2, ulong e3)
+        {
+            return new ulong[] { e1, e2, e3 };
+        }
+
+        [ConstExpression]
+        public static ReadOnlyArray<float> MakeArray(float e1, float e2, float e3)
+        {
+            return new float[] { e1, e2, e3 };
+        }
+
+        [ConstExpression]
+        public static ReadOnlyArray<double> MakeArray(double e1, double e2, double e3)
+        {
+            return new double[] { e1, e2, e3 };
+        }
+
+        [ConstExpression]
+        public static Vector3 MakeVector3(float x, float y, float z)
+        {
+            return new Vector3(x, y, z);
+        }
+
+        [ConstExpression]
+        public static int FindLargestPrime(int n)
+        {
+            return FindLargestPrimeRaw(n);
+        }
+
+        public static int FindLargestPrimeRaw(int n)
+        {
+            bool[] isPrime = new bool[n + 1];
+            for (int i = 2; i <= n; i++)
+            {
+                isPrime[i] = true;
+            }
+
+            for (int p = 2; p * p <= n; p++)
+            {
+                if (!isPrime[p])
+                {
+                    continue;
+                }
+
+                for (int i = p * p; i <= n; i += p)
+                {
+                    isPrime[i] = false;
+                }
+            }
+
+            for (int i = n; i >= 2; i--)
+            {
+                if (isPrime[i])
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+    }
+}
