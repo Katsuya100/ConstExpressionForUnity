@@ -135,6 +135,12 @@ The `ConstExpression` attribute may only be attached to functions with the follo
       <td>float</td>
       <td>double</td>
     </tr>
+    <tr>
+      <td>enum</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
  </table>
 
 Also, to perform compile-time constant calculations, the value assigned to the argument must be a constant.  
@@ -182,7 +188,13 @@ The `ConstExpression` attribute may only be attached to functions with the follo
       <td>double</td>
     </tr>
     <tr>
+      <td>enum</td>
       <td>struct<br/>- Marshal.SizeOf possible<br/>- No class as a member</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ReadOnlyArray&ltstring&gt</td>
       <td>ReadOnlyArray&ltchar&gt</td>
       <td>ReadOnlyArray&ltsbyte&gt</td>
       <td>ReadOnlyArray&ltbyte&gt</td>
@@ -198,6 +210,12 @@ The `ConstExpression` attribute may only be attached to functions with the follo
       <td>ReadOnlyArray&ltulong&gt</td>
       <td>ReadOnlyArray&ltfloat&gt</td>
       <td>ReadOnlyArray&ltdouble&gt</td>
+    </tr>
+    <tr>
+      <td>ReadOnlyArray&ltenum&gt</td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
  </table>
 

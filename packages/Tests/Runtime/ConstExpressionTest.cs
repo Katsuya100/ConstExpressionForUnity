@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using UnityEngine;
 
 namespace Katuusagi.ConstExpressionForUnity.Tests
@@ -87,6 +88,24 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         {
             const double e1 = 7;
             Assert.AreEqual(TestFunctions.Threw(e1), e1);
+        }
+
+        [Test]
+        public void Enum()
+        {
+            Assert.AreEqual(TestFunctions.Threw(DayOfWeek.Sunday), DayOfWeek.Sunday);
+        }
+
+        [Test]
+        public void StringArray()
+        {
+            const string e1 = "abc";
+            const string e2 = "def";
+            const string e3 = "ghi";
+            var result = TestFunctions.MakeArray(e1, e2, e3);
+            Assert.AreEqual(result[0], e1);
+            Assert.AreEqual(result[1], e2);
+            Assert.AreEqual(result[2], e3);
         }
 
         [Test]
@@ -219,6 +238,15 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
             Assert.AreEqual(result[0], e1);
             Assert.AreEqual(result[1], e2);
             Assert.AreEqual(result[2], e3);
+        }
+
+        [Test]
+        public void EnumArray()
+        {
+            var result = TestFunctions.MakeArray(DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Thursday);
+            Assert.AreEqual(result[0], DayOfWeek.Monday);
+            Assert.AreEqual(result[1], DayOfWeek.Tuesday);
+            Assert.AreEqual(result[2], DayOfWeek.Thursday);
         }
 
         [Test]

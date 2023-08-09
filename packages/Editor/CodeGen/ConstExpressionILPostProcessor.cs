@@ -11,7 +11,6 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using Unity.CompilationPipeline.Common.Diagnostics;
 using Unity.CompilationPipeline.Common.ILPostProcessing;
-using UnityEngine;
 
 namespace Katuusagi.ConstExpressionForUnity.Editor
 {
@@ -248,6 +247,44 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
 
         private Instruction SetElement(object literal)
         {
+            var literalType = literal.GetType();
+            if (literal is Enum enumValue)
+            {
+                var underlyingType = Enum.GetUnderlyingType(literalType);
+                if (underlyingType == typeof(sbyte))
+                {
+                    literal = (sbyte)(object)enumValue;
+                }
+                else if (underlyingType == typeof(byte))
+                {
+                    literal = (byte)(object)enumValue;
+                }
+                else if (underlyingType == typeof(short))
+                {
+                    literal = (short)(object)enumValue;
+                }
+                else if (underlyingType == typeof(ushort))
+                {
+                    literal = (ushort)(object)enumValue;
+                }
+                else if (underlyingType == typeof(int))
+                {
+                    literal = (int)(object)enumValue;
+                }
+                else if (underlyingType == typeof(uint))
+                {
+                    literal = (uint)(object)enumValue;
+                }
+                else if (underlyingType == typeof(long))
+                {
+                    literal = (long)(object)enumValue;
+                }
+                else if (underlyingType == typeof(ulong))
+                {
+                    literal = (ulong)(object)enumValue;
+                }
+            }
+
             if (literal is sbyte)
             {
                 return Instruction.Create(OpCodes.Stelem_I1);
@@ -292,12 +329,54 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
             {
                 return Instruction.Create(OpCodes.Stelem_I2);
             }
+            if (literal is string)
+            {
+                return Instruction.Create(OpCodes.Stelem_Ref);
+            }
 
             return null;
         }
 
         private Instruction LoadLiteral(ILProcessor ilProcessor, object literal)
         {
+            var literalType = literal.GetType();
+            if (literal is Enum enumValue)
+            {
+                var underlyingType = Enum.GetUnderlyingType(literalType);
+                if (underlyingType == typeof(sbyte))
+                {
+                    literal = (sbyte)(object)enumValue;
+                }
+                else if (underlyingType == typeof(byte))
+                {
+                    literal = (byte)(object)enumValue;
+                }
+                else if (underlyingType == typeof(short))
+                {
+                    literal = (short)(object)enumValue;
+                }
+                else if (underlyingType == typeof(ushort))
+                {
+                    literal = (ushort)(object)enumValue;
+                }
+                else if (underlyingType == typeof(int))
+                {
+                    literal = (int)(object)enumValue;
+                }
+                else if (underlyingType == typeof(uint))
+                {
+                    literal = (uint)(object)enumValue;
+                }
+                else if (underlyingType == typeof(long))
+                {
+                    literal = (long)(object)enumValue;
+                }
+                else if (underlyingType == typeof(ulong))
+                {
+                    literal = (ulong)(object)enumValue;
+                }
+            }
+            
             if (literal is sbyte sbyteValue)
             {
                 literal = (int)sbyteValue;
@@ -384,73 +463,13 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                 return Instruction.Create(OpCodes.Ldstr, stringValue);
             }
 
-            if (literal is ReadOnlyArray<sbyte> sbytesValue)
+            if (literal is IEnumerable array)
             {
-                var field = GetReadOnlyArrayField(ilProcessor, sbytesValue);
+                var field = GetReadOnlyArrayField(ilProcessor, array);
                 return Instruction.Create(OpCodes.Ldsfld, field);
             }
 
-            if (literal is ReadOnlyArray<byte> bytesValue)
-            {
-                var field = GetReadOnlyArrayField(ilProcessor, bytesValue);
-                return Instruction.Create(OpCodes.Ldsfld, field);
-            }
-
-            if (literal is ReadOnlyArray<short> shortsValue)
-            {
-                var field = GetReadOnlyArrayField(ilProcessor, shortsValue);
-                return Instruction.Create(OpCodes.Ldsfld, field);
-            }
-
-            if (literal is ReadOnlyArray<ushort> ushortsValue)
-            {
-                var field = GetReadOnlyArrayField(ilProcessor, ushortsValue);
-                return Instruction.Create(OpCodes.Ldsfld, field);
-            }
-
-            if (literal is ReadOnlyArray<int> intsValue)
-            {
-                var field = GetReadOnlyArrayField(ilProcessor, intsValue);
-                return Instruction.Create(OpCodes.Ldsfld, field);
-            }
-
-            if (literal is ReadOnlyArray<uint> uintsValue)
-            {
-                var field = GetReadOnlyArrayField(ilProcessor, uintsValue);
-                return Instruction.Create(OpCodes.Ldsfld, field);
-            }
-
-            if (literal is ReadOnlyArray<long> longsValue)
-            {
-                var field = GetReadOnlyArrayField(ilProcessor, longsValue);
-                return Instruction.Create(OpCodes.Ldsfld, field);
-            }
-
-            if (literal is ReadOnlyArray<ulong> ulongsValue)
-            {
-                var field = GetReadOnlyArrayField(ilProcessor, ulongsValue);
-                return Instruction.Create(OpCodes.Ldsfld, field);
-            }
-
-            if (literal is ReadOnlyArray<float> floatsValue)
-            {
-                var field = GetReadOnlyArrayField(ilProcessor, floatsValue);
-                return Instruction.Create(OpCodes.Ldsfld, field);
-            }
-
-            if (literal is ReadOnlyArray<double> doublesValue)
-            {
-                var field = GetReadOnlyArrayField(ilProcessor, doublesValue);
-                return Instruction.Create(OpCodes.Ldsfld, field);
-            }
-
-            if (literal is ReadOnlyArray<char> charsValue)
-            {
-                var field = GetReadOnlyArrayField(ilProcessor, charsValue);
-                return Instruction.Create(OpCodes.Ldsfld, field);
-            }
-
-            if (!literal.GetType().IsClass && !literal.GetType().IsInterface)
+            if (!literalType.IsClass && !literalType.IsInterface)
             {
                 var field = GetStructField(ilProcessor, literal);
                 return Instruction.Create(OpCodes.Ldsfld, field);
@@ -543,6 +562,12 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                     return true;
                 }
 
+                if (type.IsEnum)
+                {
+                    result = intValue;
+                    return true;
+                }
+
                 return false;
             }
 
@@ -610,6 +635,12 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                 if (type == typeof(char))
                 {
                     result = (char)longValue;
+                    return true;
+                }
+
+                if (type.IsEnum)
+                {
+                    result = longValue ;
                     return true;
                 }
 
@@ -1045,38 +1076,49 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
             return value;
         }
 
-        private FieldReference GetReadOnlyArrayField<T>(ILProcessor ilProcessor, ReadOnlyArray<T> array)
+        private FieldReference GetReadOnlyArrayField(ILProcessor ilProcessor, IEnumerable array)
         {
+            var arrayType = array.GetType();
+            if (!arrayType.IsGenericType ||
+                arrayType.GetGenericTypeDefinition() != typeof(ReadOnlyArray<>))
+            {
+                return null;
+            }
+
             if (_constFields.TryGetValue(array, out FieldReference value))
             {
                 return value;
             }
 
+            var elementType = arrayType.GetGenericArguments()[0];
+
             var type = _constTableType;
             var cctor = _constTableConstructor;
 
             // インポート
-            var elementType = type.Module.ImportReference(typeof(T));
-            var arrayType = type.Module.ImportReference(typeof(ReadOnlyArray<T>));
-            var implicitMethod = typeof(ReadOnlyArrayUtils).GetMethod("ConvertArrayToReadOnlyArray", BindingFlags.Static | BindingFlags.Public).MakeGenericMethod(typeof(T));
+            var elementTypeRef = type.Module.ImportReference(elementType);
+            var arrayTypeRef = type.Module.ImportReference(arrayType);
+            var implicitMethod = typeof(ReadOnlyArrayUtils).GetMethod("ConvertArrayToReadOnlyArray", BindingFlags.Static | BindingFlags.Public).MakeGenericMethod(elementType);
             var arrayTypeCast = type.Module.ImportReference(implicitMethod);
 
             // 初期値相当のメンバ変数を作成
-            var field = new FieldDefinition($"${_constFields.Count}", Mono.Cecil.FieldAttributes.Public | Mono.Cecil.FieldAttributes.Static | Mono.Cecil.FieldAttributes.InitOnly, arrayType);
+            var field = new FieldDefinition($"${_constFields.Count}", Mono.Cecil.FieldAttributes.Public | Mono.Cecil.FieldAttributes.Static | Mono.Cecil.FieldAttributes.InitOnly, arrayTypeRef);
             type.Fields.Add(field);
 
             // 静的コンストラクタに初期化処理を書く
             var instructions = cctor.Body.Instructions;
-            instructions.Add(LoadLiteral(ilProcessor, array.Count));
-            instructions.Add(Instruction.Create(OpCodes.Newarr, elementType));
+            var count = Count(array);
+            instructions.Add(LoadLiteral(ilProcessor, count));
+            instructions.Add(Instruction.Create(OpCodes.Newarr, elementTypeRef));
 
-            for (int i = 0; i < array.Count; ++i)
+            int i = 0;
+            foreach (var e in array)
             {
-                var e = array[i];
                 instructions.Add(Instruction.Create(OpCodes.Dup));
                 instructions.Add(LoadLiteral(ilProcessor, i));
                 instructions.Add(LoadLiteral(ilProcessor, e));
                 instructions.Add(SetElement(e));
+                ++i;
             }
             instructions.Add(Instruction.Create(OpCodes.Call, arrayTypeCast));
             instructions.Add(Instruction.Create(OpCodes.Stsfld, field));
@@ -1085,6 +1127,16 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
             value = field;
             _constFields.Add(array, value);
             return value;
+        }
+
+        private int Count(IEnumerable enumerable)
+        {
+            int c = 0;
+            foreach (var e in enumerable)
+            {
+                ++c;
+            }
+            return c;
         }
 
         private IEnumerable<MethodInfo> FindMethods<T>()
@@ -1219,7 +1271,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
 
         private static bool IsAllowConstExpressionParameterType(Type type)
         {
-            return type.IsPrimitive || type == typeof(string);
+            return type.IsPrimitive || type == typeof(string) || type.IsEnum;
         }
 
         private static bool IsAllowConstExpressionReturnType(Type type)
@@ -1228,11 +1280,13 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
             {
                 if (type.GetGenericTypeDefinition() == typeof(ReadOnlyArray<>))
                 {
-                    return type.GetGenericArguments()[0].IsPrimitive;
+                    var etype = type.GetGenericArguments()[0];
+                    return etype.IsPrimitive || etype == typeof(string) || etype.IsEnum;
                 }
             }
 
-            if (type == typeof(string))
+            if (type == typeof(string) ||
+                type.IsEnum)
             {
                 return true;
             }
@@ -1255,7 +1309,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
 
         private static bool IsStructRecursive(Type type)
         {
-            if (type.IsPrimitive)
+            if (type.IsPrimitive || type.IsEnum)
             {
                 return true;
             }

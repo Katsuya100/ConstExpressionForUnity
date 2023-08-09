@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Katuusagi.ConstExpressionForUnity.Tests
@@ -77,6 +78,18 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         }
 
         [ConstExpression]
+        public static DayOfWeek Threw(DayOfWeek value)
+        {
+            return value;
+        }
+
+        [ConstExpression]
+        public static ReadOnlyArray<string> MakeArray(string e1, string e2, string e3)
+        {
+            return new string[] { e1, e2, e3 };
+        }
+
+        [ConstExpression]
         public static ReadOnlyArray<char> MakeArray(char e1, char e2, char e3)
         {
             return new char[] { e1, e2, e3 };
@@ -140,6 +153,12 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         public static ReadOnlyArray<double> MakeArray(double e1, double e2, double e3)
         {
             return new double[] { e1, e2, e3 };
+        }
+
+        [ConstExpression]
+        public static ReadOnlyArray<DayOfWeek> MakeArray(DayOfWeek e1, DayOfWeek e2, DayOfWeek e3)
+        {
+            return new DayOfWeek[] { e1, e2, e3 };
         }
 
         [ConstExpression]

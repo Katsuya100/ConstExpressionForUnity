@@ -135,6 +135,12 @@ public static class MyConstExpression
       <td>float</td>
       <td>double</td>
     </tr>
+    <tr>
+      <td>enum</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
  </table>
 
 また、コンパイル時定数計算を行うには、引数に代入する値が定数でなければなりません。  
@@ -182,7 +188,13 @@ MyConstExpression.Add(l, r);
       <td>double</td>
     </tr>
     <tr>
+      <td>enum</td>
       <td>struct<br/>- Marshal.SizeOf可能であること<br/>- classをメンバに持たないこと</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ReadOnlyArray&ltstring&gt</td>
       <td>ReadOnlyArray&ltchar&gt</td>
       <td>ReadOnlyArray&ltsbyte&gt</td>
       <td>ReadOnlyArray&ltbyte&gt</td>
@@ -198,6 +210,12 @@ MyConstExpression.Add(l, r);
       <td>ReadOnlyArray&ltulong&gt</td>
       <td>ReadOnlyArray&ltfloat&gt</td>
       <td>ReadOnlyArray&ltdouble&gt</td>
+    </tr>
+    <tr>
+      <td>ReadOnlyArray&ltenum&gt</td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
  </table>
 
