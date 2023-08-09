@@ -182,7 +182,7 @@ MyConstExpression.Add(l, r);
       <td>double</td>
     </tr>
     <tr>
-      <td>classをメンバに持たないstruct</td>
+      <td>struct<br/>- Marshal.SizeOf可能であること<br/>- classをメンバに持たないこと</td>
       <td>ReadOnlyArray&ltchar&gt</td>
       <td>ReadOnlyArray&ltsbyte&gt</td>
       <td>ReadOnlyArray&ltbyte&gt</td>
