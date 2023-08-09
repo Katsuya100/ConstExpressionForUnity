@@ -182,7 +182,7 @@ The `ConstExpression` attribute may only be attached to functions with the follo
       <td>double</td>
     </tr>
     <tr>
-      <td>classをメンバに持たないstruct</td>
+      <td>struct<br/>- Marshal.SizeOf possible<br/>- No class as a member</td>
       <td>ReadOnlyArray&ltchar&gt</td>
       <td>ReadOnlyArray&ltsbyte&gt</td>
       <td>ReadOnlyArray&ltbyte&gt</td>
