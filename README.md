@@ -136,8 +136,8 @@ The `ConstExpression` attribute may only be attached to functions with the follo
       <td>double</td>
     </tr>
     <tr>
+      <td>bool</td>
       <td>enum</td>
-      <td></td>
       <td></td>
       <td></td>
     </tr>
@@ -203,9 +203,9 @@ The `ConstExpression` attribute may only be attached to functions with the follo
       <td>double</td>
     </tr>
     <tr>
+      <td>bool</td>
       <td>enum</td>
       <td>struct<br/>- Marshal.SizeOf possible<br/>- No class as a member</td>
-      <td></td>
       <td></td>
     </tr>
     <tr>
@@ -227,6 +227,7 @@ The `ConstExpression` attribute may only be attached to functions with the follo
       <td>ReadOnlyArray&ltdouble&gt</td>
     </tr>
     <tr>
+      <td>ReadOnlyArray&ltbool&gt</td>
       <td>ReadOnlyArray&ltenum&gt</td>
       <td></td>
       <td></td>

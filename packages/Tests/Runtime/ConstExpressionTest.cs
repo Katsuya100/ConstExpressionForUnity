@@ -21,6 +21,13 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         }
 
         [Test]
+        public void Bool()
+        {
+            const bool e1 = true;
+            Assert.AreEqual(TestFunctions.Threw(e1), e1);
+        }
+
+        [Test]
         public void SByte()
         {
             const sbyte e1 = 7;
@@ -114,6 +121,18 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
             const char e1 = 'a';
             const char e2 = 'b';
             const char e3 = 'c';
+            var result = TestFunctions.MakeArray(e1, e2, e3);
+            Assert.AreEqual(result[0], e1);
+            Assert.AreEqual(result[1], e2);
+            Assert.AreEqual(result[2], e3);
+        }
+
+        [Test]
+        public void BoolArray()
+        {
+            const bool e1 = true;
+            const bool e2 = false;
+            const bool e3 = true;
             var result = TestFunctions.MakeArray(e1, e2, e3);
             Assert.AreEqual(result[0], e1);
             Assert.AreEqual(result[1], e2);

@@ -288,6 +288,10 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                 }
             }
 
+            if (literal is bool)
+            {
+                return Instruction.Create(OpCodes.Stelem_I1);
+            }
             if (literal is sbyte)
             {
                 return Instruction.Create(OpCodes.Stelem_I1);
@@ -379,8 +383,12 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                     literal = (ulong)(object)enumValue;
                 }
             }
-            
-            if (literal is sbyte sbyteValue)
+
+            if (literal is bool boolValue)
+            {
+                literal = boolValue ? 1 : 0;
+            }
+            else if (literal is sbyte sbyteValue)
             {
                 literal = (int)sbyteValue;
             }
@@ -500,6 +508,12 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
 
             if (result is int intValue)
             {
+                if (type == typeof(bool))
+                {
+                    result = intValue != 0;
+                    return true;
+                }
+
                 if (type == typeof(sbyte))
                 {
                     result = (sbyte)intValue;
@@ -576,6 +590,12 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
 
             if (result is long longValue)
             {
+                if (type == typeof(bool))
+                {
+                    result = longValue != 0;
+                    return true;
+                }
+
                 if (type == typeof(sbyte))
                 {
                     result = (sbyte)longValue;
@@ -652,6 +672,12 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
 
             if (result is float floatValue)
             {
+                if (type == typeof(bool))
+                {
+                    result = floatValue != 0;
+                    return true;
+                }
+
                 if (type == typeof(sbyte))
                 {
                     result = (sbyte)floatValue;
@@ -722,6 +748,12 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
 
             if (result is double doubleValue)
             {
+                if (type == typeof(bool))
+                {
+                    result = doubleValue != 0;
+                    return true;
+                }
+
                 if (type == typeof(sbyte))
                 {
                     result = (sbyte)doubleValue;

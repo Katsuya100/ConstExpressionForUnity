@@ -18,6 +18,12 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         }
 
         [ConstExpression]
+        public static bool Threw(bool value)
+        {
+            return value;
+        }
+
+        [ConstExpression]
         public static sbyte Threw(sbyte value)
         {
             return value;
@@ -93,6 +99,12 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         public static ReadOnlyArray<char> MakeArray(char e1, char e2, char e3)
         {
             return new char[] { e1, e2, e3 };
+        }
+
+        [ConstExpression]
+        public static ReadOnlyArray<bool> MakeArray(bool e1, bool e2, bool e3)
+        {
+            return new bool[] { e1, e2, e3 };
         }
 
         [ConstExpression]

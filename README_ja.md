@@ -136,8 +136,8 @@ public static class MyConstExpression
       <td>double</td>
     </tr>
     <tr>
+      <td>bool</td>
       <td>enum</td>
-      <td></td>
       <td></td>
       <td></td>
     </tr>
@@ -203,9 +203,9 @@ MyConstExpression.Add(l, r);
       <td>double</td>
     </tr>
     <tr>
+      <td>bool</td>
       <td>enum</td>
       <td>struct<br/>- Marshal.SizeOf可能であること<br/>- classをメンバに持たないこと</td>
-      <td></td>
       <td></td>
     </tr>
     <tr>
@@ -227,8 +227,8 @@ MyConstExpression.Add(l, r);
       <td>ReadOnlyArray&ltdouble&gt</td>
     </tr>
     <tr>
+      <td>ReadOnlyArray&ltbool&gt</td>
       <td>ReadOnlyArray&ltenum&gt</td>
-      <td></td>
       <td></td>
       <td></td>
     </tr>
