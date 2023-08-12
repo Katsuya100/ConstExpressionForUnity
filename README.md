@@ -165,6 +165,21 @@ readonly int r = 200;
 MyConstExpression.Add(l, r);
 ```
 
+##### CalculationFailedWarning option
+Setting the `ConstExpression` attribute to `CalculationFailedWarning=false` will prevent the warning from occurring when assigning a non-constant value to an argument.
+```
+[ConstExpression(CalculationFailedWarning = false)]
+public static int Add(int l, int r)
+{
+    return l + r;
+}
+
+// No warning occurs.
+int l = 100;
+int r = 200;
+MyConstExpression.Add(l, r);
+```
+
 #### Return
 The `ConstExpression` attribute may only be attached to functions with the following return types  
 
