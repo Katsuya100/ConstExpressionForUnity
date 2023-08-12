@@ -190,7 +190,10 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                     argInstruction = argInstruction.Previous;
                     if (!TryEmulateLiteral(ref argInstruction, parameters[j].ParameterType, out var arg))
                     {
-                        LogWarning($"ConstExpression expansion failed.", method, argInstruction);
+                        if (constExpr.Method.GetCustomAttribute<ConstExpressionAttribute>().CalculationFailedWarning)
+                        {
+                            LogWarning($"ConstExpression calculation failed.", method, argInstruction);
+                        }
                         return;
                     }
 

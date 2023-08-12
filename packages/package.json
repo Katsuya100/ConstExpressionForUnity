@@ -2,7 +2,7 @@
   "name": "com.katuusagi.constexpressionforunity",
   "displayName": "ConstExpressionForUnity",
   "description": "Library for compile-time function execution in Unity.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "unity": "2021.3",
   "dependencies": {
     "com.unity.test-framework": "1.1.31",
