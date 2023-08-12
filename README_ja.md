@@ -164,6 +164,21 @@ readonly int l = 100;
 readonly int r = 200;
 MyConstExpression.Add(l, r);
 ```
+##### CalculationFailedWarningオプション
+`ConstExpression`属性に`CalculationFailedWarning=false`を設定すると
+引数に定数以外の値を代入しても警告が発生しなくなります。
+```
+[ConstExpression(CalculationFailedWarning = false)]
+public static int Add(int l, int r)
+{
+    return l + r;
+}
+
+// 警告が発生しない
+int l = 100;
+int r = 200;
+MyConstExpression.Add(l, r);
+```
 
 #### 戻り値
 `ConstExpression`属性は以下の戻り値型を持つ関数にのみつけることができます。  
