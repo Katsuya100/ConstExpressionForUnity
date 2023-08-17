@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Katuusagi.ConstExpressionForUnity.Tests
@@ -17,6 +18,12 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         public void Char()
         {
             const char e1 = 'a';
+            Assert.AreEqual(TestFunctions.Threw(e1), e1);
+
+            foreach(var v in TestFunctions.MakeArray(10, 20, 30))
+            {
+                v.ToString();
+            }
             Assert.AreEqual(TestFunctions.Threw(e1), e1);
         }
 
@@ -282,6 +289,48 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         {
             const int n = 1000;
             Assert.AreEqual(TestFunctions.FindLargestPrime(n), TestFunctions.FindLargestPrimeRaw(n));
+        }
+
+        [Test]
+        public void Jump()
+        {
+            // ConstExpression以降にジャンプ系命令を生成する
+            try
+            {
+                TestFunctions.MakeVector3(1, 2, 3);
+            }
+            finally
+            {
+                string.Format("");
+            }
+
+            string.Format("");
+
+            foreach (int v in "hogehoge".ToList())
+            {
+                string.Format("");
+            }
+
+            string.Format("");
+
+            // ジャンプ直後の箇所に展開されているパターン
+            try
+            {
+                TestFunctions.MakeVector3(1, 2, 3);
+            }
+            finally
+            {
+                TestFunctions.MakeVector3(1, 2, 3);
+            }
+
+            TestFunctions.MakeVector3(1, 2, 3);
+
+            foreach (int v in TestFunctions.MakeArray(1, 2, 3))
+            {
+                TestFunctions.FindLargestPrime(v);
+            }
+
+            TestFunctions.MakeVector3(1, 2, 3);
         }
     }
 }

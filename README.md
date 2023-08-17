@@ -68,6 +68,9 @@ Multiple prime number calculations by Sieve of Eratosthenes.
 Since the calculation itself disappears and only the result of the calculation is returned, the cost is almost negligible.  
 
 ## How to install
+### Installing ILPostProcessorCommon
+Refer to [ILPostProcessorCommon v1.0.0](https://github.com/Katsuya100/ILPostProcessorCommon/tree/v1.0.0) for installation.
+
 ### Installing ConstExpressionForUnity
 1. Open [Window > Package Manager].
 2. click [+ > Add package from git url...].

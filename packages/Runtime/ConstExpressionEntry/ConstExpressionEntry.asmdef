@@ -2,7 +2,8 @@
     "name": "ConstExpressionEntry",
     "rootNamespace": "",
     "references": [
-        "GUID:7d9bd8fd69877bc43801e3ecc944a10d"
+        "GUID:7d9bd8fd69877bc43801e3ecc944a10d",
+        "GUID:c70eb7601d69e4843a04844bb0c01de0"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

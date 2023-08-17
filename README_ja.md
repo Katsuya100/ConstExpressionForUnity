@@ -66,6 +66,9 @@ public static class Test
 計算そのものが消失し計算結果のみを返すため、コストが殆どかからなくなっています。  
 
 ## インストール方法
+### ILPostProcessorCommonのインストール
+[ILPostProcessorCommon v1.0.0](https://github.com/Katsuya100/ILPostProcessorCommon/tree/v1.0.0) を参照しインストールする。
+
 ### ConstExpressionForUnityのインストール
 1. [Window > Package Manager]を開く。
 2. [+ > Add package from git url...]をクリックする。

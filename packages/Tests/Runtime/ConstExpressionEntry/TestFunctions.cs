@@ -1,3 +1,4 @@
+using Katuusagi.ILPostProcessorCommon;
 using System;
 using UnityEngine;
 
@@ -179,7 +180,7 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
             return new Vector3(x, y, z);
         }
 
-        [ConstExpression]
+        [ConstExpression(CalculationFailedWarning = false)]
         public static int FindLargestPrime(int n)
         {
             return FindLargestPrimeRaw(n);
