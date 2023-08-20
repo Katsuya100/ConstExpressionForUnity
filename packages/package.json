@@ -2,10 +2,10 @@
   "name": "com.katuusagi.constexpressionforunity",
   "displayName": "ConstExpressionForUnity",
   "description": "Library for compile-time function execution in Unity.",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "unity": "2021.3",
   "dependencies": {
-    "com.katuusagi.ilpostprocessorcommon": "1.0.0",
+    "com.katuusagi.ilpostprocessorcommon": "1.1.0",
     "com.unity.test-framework": "1.1.31",
     "com.unity.test-framework.performance": "3.0.2",
     "com.unity.nuget.mono-cecil": "1.10.2"
@@ -21,6 +21,6 @@
   },
   "documentationUrl": "https://github.com/Katsuya100/ConstExpressionForUnity",
   "changelogUrl": "https://github.com/Katsuya100/ConstExpressionForUnity/releases",
-  "licensesUrl": "https://github.com/Katsuya100/ConstExpressionForUnity/blob/v2.0.0/LICENSE"
+  "licensesUrl": "https://github.com/Katsuya100/ConstExpressionForUnity/blob/v2.1.0/LICENSE"
 }
 

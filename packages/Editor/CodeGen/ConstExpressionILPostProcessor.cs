@@ -36,7 +36,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                 _constExprTable = FindConstExprMethods();
                 using (var assembly = ILPostProcessorUtils.LoadAssemblyDefinition(compiledAssembly))
                 {
-                    using (_constTable = new ConstTableGenerator(assembly.MainModule, "Katuusagi.FixedString.Generated", "$ConstTable"))
+                    using (_constTable = new ConstTableGenerator(assembly.MainModule, "Katuusagi.ConstExpression.Generated", "$$ConstTable"))
                     {
                         foreach (var type in assembly.Modules.SelectMany(v => v.Types).GetAllTypes())
                         {
