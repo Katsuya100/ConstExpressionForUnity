@@ -67,7 +67,7 @@ public static class Test
 
 ## インストール方法
 ### ILPostProcessorCommonのインストール
-[ILPostProcessorCommon v1.0.0](https://github.com/Katsuya100/ILPostProcessorCommon/tree/v1.0.0) を参照しインストールする。
+[ILPostProcessorCommon v1.1.0](https://github.com/Katsuya100/ILPostProcessorCommon/tree/v1.1.0) を参照しインストールする。
 
 ### ConstExpressionForUnityのインストール
 1. [Window > Package Manager]を開く。
