@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Katuusagi.ConstExpressionForUnity.Tests
 {
-    public static class TestFunctions
+    public static class ConstExpressionTestFunctions
     {
         [ConstExpression]
         public static string Threw(string value)
@@ -175,6 +175,15 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         }
 
         [ConstExpression]
+        public static PackedStruct<int> MakeGeneric(int value)
+        {
+            return new PackedStruct<int>()
+            {
+                value = value,
+            };
+        }
+
+        [ConstExpression]
         public static Vector3 MakeVector3(float x, float y, float z)
         {
             return new Vector3(x, y, z);
@@ -216,6 +225,18 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
             }
 
             return -1;
+        }
+
+        [ConstExpression]
+        public static int GetArrayElement(ReadOnlyArray<int> array, int index)
+        {
+            return array[index];
+        }
+
+        [ConstExpression]
+        public static float GetZ(Vector3 v)
+        {
+            return v.z;
         }
     }
 }
