@@ -278,8 +278,8 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         [Test]
         public void GenericStructure()
         {
-            var result = ConstExpressionTestFunctions.MakeGeneric(100);
-            Assert.AreEqual(result.value, 100);
+            var result = ConstExpressionTestFunctions.MakeGeneric(10.0f, 20.0f, 30.0f);
+            Assert.AreEqual(result.value, new Vector3(10.0f, 20.0f, 30.0f));
         }
 
         [Test]
@@ -345,8 +345,7 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         {
             var z = ConstExpressionTestFunctions.GetZ(ConstExpressionTestFunctions.MakeVector3(1f, 2.5f, 3.45f));
             Assert.AreEqual(z, 3.45f);
-            var arr = ConstExpressionTestFunctions.MakeArray(10, 20, 30);
-            var a = ConstExpressionTestFunctions.GetArrayElement(arr, 1);
+            var a = ConstExpressionTestFunctions.GetArrayElement(ConstExpressionTestFunctions.MakeArray(10, 20, 30), 1);
             Assert.AreEqual(a, 20);
         }
     }

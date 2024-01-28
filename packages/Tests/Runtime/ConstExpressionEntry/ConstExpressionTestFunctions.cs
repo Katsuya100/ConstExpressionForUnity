@@ -175,11 +175,12 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         }
 
         [ConstExpression]
-        public static PackedStruct<int> MakeGeneric(int value)
+        public static PackedStruct<Vector3> MakeGeneric(float x, float y, float z)
         {
-            return new PackedStruct<int>()
+            return new PackedStruct<Vector3>()
             {
-                value = value,
+                value = new Vector3(x, y, z),
+                hoge = 100.0f
             };
         }
 

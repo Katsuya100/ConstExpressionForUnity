@@ -200,12 +200,12 @@ const int l = 100;
 const int r = 200;
 MyConstExpression.Add(l, r);
 
-// NG *May be acceptable if traceable at IL level.
+// NG
 int l = 100;
 int r = 200;
 MyConstExpression.Add(l, r);
 
-// NG *May be acceptable if traceable at IL level.
+// NG
 readonly int l = 100;
 readonly int r = 200;
 MyConstExpression.Add(l, r);
@@ -358,12 +358,12 @@ const int l = 100;
 const int r = 200;
 MyStaticExpression.Add(l, r);
 
-// NG *May be acceptable if traceable at IL level.
+// NG
 int l = 100;
 int r = 200;
 MyStaticExpression.Add(l, r);
 
-// NG *May be acceptable if traceable at IL level.
+// NG
 readonly int l = 100;
 readonly int r = 200;
 MyStaticExpression.Add(l, r);

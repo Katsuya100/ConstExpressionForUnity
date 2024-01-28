@@ -36,9 +36,9 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
 
             try
             {
-                ILPostProcessorUtils.InitLog<ConstExpressionILPostProcessor>(compiledAssembly);
+                ILPPUtils.InitLog<ConstExpressionILPostProcessor>(compiledAssembly);
                 _constExprTable = FindConstExprMethods();
-                using (var assembly = ILPostProcessorUtils.LoadAssemblyDefinition(compiledAssembly))
+                using (var assembly = ILPPUtils.LoadAssemblyDefinition(compiledAssembly))
                 {
                     var mainModule = assembly.MainModule;
                     _allowedStaticExpressionTypes.Add(mainModule.ImportReference(typeof(Type)));
@@ -87,7 +87,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                                     continue;
                                 }
 
-                                ILPostProcessorUtils.ResolveInstructionOpCode(body.Instructions);
+                                ILPPUtils.ResolveInstructionOpCode(body.Instructions);
                             }
                         }
                     }
@@ -102,40 +102,40 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                     };
 
                     assembly.Write(pe, writeParameter);
-                    return new ILPostProcessResult(new InMemoryAssembly(pe.ToArray(), pdb.ToArray()), ILPostProcessorUtils.Logger.Messages);
+                    return new ILPostProcessResult(new InMemoryAssembly(pe.ToArray(), pdb.ToArray()), ILPPUtils.Logger.Messages);
                 }
             }
             catch (Exception e)
             {
-                ILPostProcessorUtils.LogException(e);
+                ILPPUtils.LogException(e);
             }
-            return new ILPostProcessResult(null, ILPostProcessorUtils.Logger.Messages);
+            return new ILPostProcessResult(null, ILPPUtils.Logger.Messages);
         }
 
         private Dictionary<string, Delegate> FindConstExprMethods()
         {
             var result = new Dictionary<string, Delegate>();
-            foreach (var method in ILPostProcessorUtils.FindMethods<ConstExpressionAttribute>(typeof(ConstExpressionEntry).Assembly))
+            foreach (var method in ILPPUtils.FindMethods<ConstExpressionAttribute>(typeof(ConstExpressionEntry).Assembly))
             {
                 if (!CheckConstExpressionError(method))
                 {
                     continue;
                 }
 
-                var delType = ILPostProcessorUtils.GetDelegateType(method.GetParameters().Select(v => v.ParameterType), method.ReturnType);
+                var delType = ILPPUtils.GetDelegateType(method.GetParameters().Select(v => v.ParameterType), method.ReturnType);
                 var del = Delegate.CreateDelegate(delType, method);
                 var args = string.Empty;
                 foreach (var parameter in method.GetParameters())
                 {
-                    args = $"{args}{ILPostProcessorUtils.GetTypeName(parameter.ParameterType)},";
+                    args = $"{args}{ILPPUtils.GetTypeName(parameter.ParameterType)},";
                 }
 
                 if (!string.IsNullOrEmpty(args))
                 {
                     args = args.Remove(args.Length - 1, 1);
                 }
-                string returnName = ILPostProcessorUtils.GetTypeName(method.ReturnType);
-                result.Add($"{returnName} {ILPostProcessorUtils.GetTypeName(method.ReflectedType)}::{method.Name}({args})", del);
+                string returnName = ILPPUtils.GetTypeName(method.ReturnType);
+                result.Add($"{returnName} {ILPPUtils.GetTypeName(method.ReflectedType)}::{method.Name}({args})", del);
             }
 
             return result;
@@ -161,7 +161,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                     {
                         if (constExpr.Method.GetCustomAttribute<ConstExpressionAttribute>().CalculationFailedWarning)
                         {
-                            ILPostProcessorUtils.LogWarning($"ConstExpression calculation failed.", method, argInstruction);
+                            ILPPUtils.LogWarning("CONSTEXPR0501", "ConstExpression warning.", $"ConstExpression accepts only constants as arguments.", method, instruction);
                         }
                         return false;
                     }
@@ -183,7 +183,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                     e = t.InnerException;
                 }
 
-                ILPostProcessorUtils.LogException(e);
+                ILPPUtils.LogException(e);
                 return false;
             }
 
@@ -200,13 +200,13 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
             while (argInstruction != instruction)
             {
                 --instructionDiff;
-                ILPostProcessorUtils.ReplaceTarget(ilProcessor, argInstruction, loadLiteral);
+                ILPPUtils.ReplaceTarget(ilProcessor, argInstruction, loadLiteral);
                 argInstruction = argInstruction.Next;
                 ilProcessor.Remove(argInstruction.Previous);
             }
 
             --instructionDiff;
-            ILPostProcessorUtils.ReplaceTarget(ilProcessor, instruction, loadLiteral);
+            ILPPUtils.ReplaceTarget(ilProcessor, instruction, loadLiteral);
             ilProcessor.Remove(instruction);
 
             return true;
@@ -214,7 +214,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
 
         private bool TryGetConstValue(ref Instruction instruction, Type type, out object result)
         {
-            if (ILPostProcessorUtils.TryGetConstValue(ref instruction, type, out result))
+            if (ILPPUtils.TryGetConstValue(ref instruction, type, out result))
             {
                 return true;
             }
@@ -227,6 +227,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                 return ret;
             }
 
+            /*
             if (instruction.OpCode == OpCodes.Ldloc_0)
             {
                 var ret = TryGetConstValue(instruction, type, OpCodes.Stloc_0, instruction.Operand, out result);
@@ -262,6 +263,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                 var ret = TryGetConstValue(instruction, type, OpCodes.Stloc, instruction.Operand, out result);
                 return ret;
             }
+            */
 
             result = null;
             return false;
@@ -288,20 +290,20 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
         {
             if (!method.IsStatic)
             {
-                ILPostProcessorUtils.LogError($"ConstExpression is static method only.", method);
+                ILPPUtils.LogError("CONSTEXPR0001", "ConstExpression failed.", $"ConstExpression is static method only.", method);
                 return false;
             }
 
             if (method.IsGenericMethod ||
                 method.ReflectedType.IsGenericType)
             {
-                ILPostProcessorUtils.LogError($"ConstExpression does not support generic argument.", method);
+                ILPPUtils.LogError("CONSTEXPR0002", "ConstExpression failed.", $"ConstExpression does not support generic argument.", method);
                 return false;
             }
 
             if (!IsAllowConstExpressionType(method.ReturnType))
             {
-                ILPostProcessorUtils.LogError($"ConstExpression does not support return of type \"{method.ReturnType.FullName}\".", method);
+                ILPPUtils.LogError("CONSTEXPR0003", "ConstExpression failed.", $"ConstExpression does not support return of type \"{method.ReturnType.FullName}\".", method);
                 return false;
             }
 
@@ -312,7 +314,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                     continue;
                 }
 
-                ILPostProcessorUtils.LogError($"ConstExpression does not support parameters of type \"{parameter.ParameterType.FullName}\".", method);
+                ILPPUtils.LogError("CONSTEXPR0004", "ConstExpression failed.", $"ConstExpression does not support parameters of type \"{parameter.ParameterType.FullName}\".", method);
                 return false;
             }
 
@@ -332,7 +334,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
 
             var result = type == typeof(string) ||
                 type.IsEnum ||
-                ILPostProcessorUtils.IsStructRecursive(type);
+                ILPPUtils.IsStructRecursive(type);
             return result;
         }
 
@@ -359,7 +361,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
             {
                 if (calculationFailedWarning)
                 {
-                    ILPostProcessorUtils.LogWarning($"StaticExpression calculation failed.", method, instruction);
+                    ILPPUtils.LogWarning("CONSTEXPR1502", "ConstExpression warning.", $"StaticExpression cannot use GenericParameter as a type arguments.", method, instruction);
                 }
                 return false;
             }
@@ -372,11 +374,11 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                 for (int i = 0; i < parameters.Count; ++i)
                 {
                     argInstruction = argInstruction.Previous;
-                    if (!ILPostProcessorUtils.TryGetConstInstructions(ref argInstruction, argInstructions))
+                    if (!ILPPUtils.TryGetConstInstructions(ref argInstruction, argInstructions))
                     {
                         if (calculationFailedWarning)
                         {
-                            ILPostProcessorUtils.LogWarning($"StaticExpression calculation failed.", method, argInstruction);
+                            ILPPUtils.LogWarning("CONSTEXPR1501", "ConstExpression warning.", $"StaticExpression accepts only constants as arguments.", method, instruction);
                         }
                         return false;
                     }
@@ -392,13 +394,13 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
             while (argInstruction != instruction)
             {
                 --instructionDiff;
-                ILPostProcessorUtils.ReplaceTarget(ilProcessor, argInstruction, loadLiteral);
+                ILPPUtils.ReplaceTarget(ilProcessor, argInstruction, loadLiteral);
                 argInstruction = argInstruction.Next;
                 ilProcessor.Remove(argInstruction.Previous);
             }
 
             --instructionDiff;
-            ILPostProcessorUtils.ReplaceTarget(ilProcessor, instruction, loadLiteral);
+            ILPPUtils.ReplaceTarget(ilProcessor, instruction, loadLiteral);
             ilProcessor.Remove(instruction);
             return true;
         }
@@ -454,19 +456,19 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
             var method = methodRef.Resolve();
             if (!method.IsStatic)
             {
-                ILPostProcessorUtils.LogError($"StaticExpression is static method only.", method);
+                ILPPUtils.LogError("CONSTEXPR1001", "ConstExpression failed.", $"StaticExpression is static method only.", method);
                 return false;
             }
 
             if (!method.IsPublic)
             {
-                ILPostProcessorUtils.LogError($"StaticExpression is public method only.", method);
+                ILPPUtils.LogError("CONSTEXPR1002", "ConstExpression failed.", $"StaticExpression is public method only.", method);
                 return false;
             }
 
             if (!IsAllowStaticExpressionType(methodRef.ReturnType))
             {
-                ILPostProcessorUtils.LogError($"StaticExpression does not support return of type \"{methodRef.ReturnType.FullName}\".", method);
+                ILPPUtils.LogError("CONSTEXPR1003", "ConstExpression failed.", $"StaticExpression does not support return of type \"{methodRef.ReturnType.FullName}\".", method);
                 return false;
             }
 
@@ -477,7 +479,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                     continue;
                 }
 
-                ILPostProcessorUtils.LogError($"StaticExpression does not support parameters of type \"{parameter.ParameterType.FullName}\".", method);
+                ILPPUtils.LogError("CONSTEXPR1004", "ConstExpression failed.", $"StaticExpression does not support parameters of type \"{parameter.ParameterType.FullName}\".", method);
                 return false;
             }
 
@@ -499,7 +501,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
             var result = type.IsString() ||
                          type.IsEnum() ||
                          _allowedStaticExpressionTypes.Contains(type) ||
-                         ILPostProcessorUtils.IsStructRecursive(type);
+                         ILPPUtils.IsStructRecursive(type);
             return result;
         }
     }
