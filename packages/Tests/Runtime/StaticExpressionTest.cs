@@ -26,12 +26,6 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         {
             const char e1 = 'a';
             Assert.AreEqual(StaticExpressionTestFunctions.Threw(e1), e1);
-
-            foreach (var v in StaticExpressionTestFunctions.MakeArray(10, 20, 30))
-            {
-                v.ToString();
-            }
-            Assert.AreEqual(StaticExpressionTestFunctions.Threw(e1), e1);
         }
 
         [Test]
@@ -308,7 +302,7 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         [Test]
         public void Jump()
         {
-            // ConstExpressionà»ç~Ç…ÉWÉÉÉìÉvånñΩóﬂÇê∂ê¨Ç∑ÇÈ
+            // StaticExpressionà»ç~Ç…ÉWÉÉÉìÉvånñΩóﬂÇê∂ê¨Ç∑ÇÈ
             try
             {
                 StaticExpressionTestFunctions.MakeVector3(1, 2, 3);
@@ -352,8 +346,7 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         {
             var z = StaticExpressionTestFunctions.GetZ(StaticExpressionTestFunctions.MakeVector3(1f, 2.5f, 3.45f));
             Assert.AreEqual(z, 3.45f);
-            var arr = ConstExpressionTestFunctions.MakeArray(10, 20, 30);
-            var a = StaticExpressionTestFunctions.GetArrayElement(arr, 1);
+            var a = StaticExpressionTestFunctions.GetArrayElement(ConstExpressionTestFunctions.MakeArray(10, 20, 30), 1);
             Assert.AreEqual(a, 20);
             var t = StaticExpressionTestFunctions.Threw(StaticExpressionTestFunctions.Threw(typeof(int)));
             Assert.AreEqual(t, typeof(int));

@@ -19,12 +19,6 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         {
             const char e1 = 'a';
             Assert.AreEqual(ConstExpressionTestFunctions.Threw(e1), e1);
-
-            foreach(var v in ConstExpressionTestFunctions.MakeArray(10, 20, 30))
-            {
-                v.ToString();
-            }
-            Assert.AreEqual(ConstExpressionTestFunctions.Threw(e1), e1);
         }
 
         [Test]

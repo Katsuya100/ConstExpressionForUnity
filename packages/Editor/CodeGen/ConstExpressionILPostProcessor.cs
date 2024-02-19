@@ -24,7 +24,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
         public override ILPostProcessor GetInstance() => this;
         public override bool WillProcess(ICompiledAssembly compiledAssembly)
         {
-            return true;
+            return compiledAssembly.References.Any(v => v.EndsWith("Katuusagi.ConstExpressionForUnity.dll"));
         }
 
         public override ILPostProcessResult Process(ICompiledAssembly compiledAssembly)
@@ -194,20 +194,17 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
             {
                 _results.Add(field, resultLiteral);
             }
-            ++instructionDiff;
-            ilProcessor.InsertAfter(instruction, loadLiteral);
+
+            instruction.OpCode = loadLiteral.OpCode;
+            instruction.Operand = loadLiteral.Operand;
 
             while (argInstruction != instruction)
             {
                 --instructionDiff;
-                ILPPUtils.ReplaceTarget(ilProcessor, argInstruction, loadLiteral);
+                ILPPUtils.ReplaceTarget(ilProcessor, argInstruction, instruction);
                 argInstruction = argInstruction.Next;
                 ilProcessor.Remove(argInstruction.Previous);
             }
-
-            --instructionDiff;
-            ILPPUtils.ReplaceTarget(ilProcessor, instruction, loadLiteral);
-            ilProcessor.Remove(instruction);
 
             return true;
         }
@@ -226,44 +223,6 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                 var ret = _results.TryGetValue(f, out result);
                 return ret;
             }
-
-            /*
-            if (instruction.OpCode == OpCodes.Ldloc_0)
-            {
-                var ret = TryGetConstValue(instruction, type, OpCodes.Stloc_0, instruction.Operand, out result);
-                return ret;
-            }
-
-            if (instruction.OpCode == OpCodes.Ldloc_1)
-            {
-                var ret = TryGetConstValue(instruction, type, OpCodes.Stloc_1, instruction.Operand, out result);
-                return ret;
-            }
-
-            if (instruction.OpCode == OpCodes.Ldloc_2)
-            {
-                var ret = TryGetConstValue(instruction, type, OpCodes.Stloc_2, instruction.Operand, out result);
-                return ret;
-            }
-
-            if (instruction.OpCode == OpCodes.Ldloc_3)
-            {
-                var ret = TryGetConstValue(instruction, type, OpCodes.Stloc_3, instruction.Operand, out result);
-                return ret;
-            }
-
-            if (instruction.OpCode == OpCodes.Ldloc_S)
-            {
-                var ret = TryGetConstValue(instruction, type, OpCodes.Stloc_S, instruction.Operand, out result);
-                return ret;
-            }
-
-            if (instruction.OpCode == OpCodes.Ldloc)
-            {
-                var ret = TryGetConstValue(instruction, type, OpCodes.Stloc, instruction.Operand, out result);
-                return ret;
-            }
-            */
 
             result = null;
             return false;
@@ -387,21 +346,17 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
             argInstructions.Reverse();
 
             var loadLiteral = _staticTable.LoadValue(staticExpr, argInstructions);
-
-            ++instructionDiff;
-            ilProcessor.InsertAfter(instruction, loadLiteral);
+            instruction.OpCode = loadLiteral.OpCode;
+            instruction.Operand = loadLiteral.Operand;
 
             while (argInstruction != instruction)
             {
                 --instructionDiff;
-                ILPPUtils.ReplaceTarget(ilProcessor, argInstruction, loadLiteral);
+                ILPPUtils.ReplaceTarget(ilProcessor, argInstruction, instruction);
                 argInstruction = argInstruction.Next;
                 ilProcessor.Remove(argInstruction.Previous);
             }
 
-            --instructionDiff;
-            ILPPUtils.ReplaceTarget(ilProcessor, instruction, loadLiteral);
-            ilProcessor.Remove(instruction);
             return true;
         }
 
