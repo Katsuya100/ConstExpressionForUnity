@@ -9,6 +9,12 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
     public class StaticExpressionTest
     {
         [Test]
+        public void Null()
+        {
+            Assert.AreEqual(StaticExpressionTestFunctions.ThrewType(null), null);
+        }
+
+        [Test]
         public void Type()
         {
             Assert.AreEqual(StaticExpressionTestFunctions.Threw(typeof(int)), typeof(int));

@@ -1,12 +1,11 @@
 {
-    "name": "Unity.Katuusagi.ConstExpressionForUnity.Editor.CodeGen",
-    "rootNamespace": "Katuusagi.ConstExpressionForUnity.Editor",
+    "name": "ConstExpressionEntry.Editor",
+    "rootNamespace": "",
     "references": [
-        "GUID:7d9bd8fd69877bc43801e3ecc944a10d",
-        "GUID:83f2777486538e64ba4ab30841a0f4f7",
-        "GUID:a8baef09ae0fc6545811a150e414309b",
         "GUID:138ab45cda308364ab074b9cb16664a2",
-        "GUID:c70eb7601d69e4843a04844bb0c01de0"
+        "GUID:c70eb7601d69e4843a04844bb0c01de0",
+        "GUID:7d9bd8fd69877bc43801e3ecc944a10d",
+        "GUID:83f2777486538e64ba4ab30841a0f4f7"
     ],
     "includePlatforms": [
         "Editor"
@@ -16,8 +15,8 @@
     "overrideReferences": true,
     "precompiledReferences": [
         "Mono.Cecil.dll",
-        "Mono.Cecil.Mdb.dll",
         "Mono.Cecil.Pdb.dll",
+        "Mono.Cecil.Mdb.dll",
         "Mono.Cecil.Rocks.dll"
     ],
     "autoReferenced": false,

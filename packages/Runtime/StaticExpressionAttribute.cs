@@ -6,5 +6,6 @@ namespace Katuusagi.ConstExpressionForUnity
     public class StaticExpressionAttribute : Attribute
     {
         public bool CalculationFailedWarning { get; set; } = true;
+        public string ErrorHandler { get; set; } = null;
     }
 }

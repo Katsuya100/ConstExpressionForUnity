@@ -21,6 +21,12 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         }
 
         [StaticExpression]
+        public static Type ThrewType(Type t)
+        {
+            return t;
+        }
+
+        [StaticExpression]
         public static Type Threw(Type t)
         {
             return t;
@@ -227,7 +233,7 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
             return v.z;
         }
 
-        [StaticExpression(CalculationFailedWarning = false)]
+        [StaticExpression]
         public static MemberInfo GetMember<T>(string name)
         {
             return typeof(T).GetMember(name).FirstOrDefault();

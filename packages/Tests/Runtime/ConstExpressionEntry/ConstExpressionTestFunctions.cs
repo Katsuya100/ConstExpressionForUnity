@@ -6,6 +6,22 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
 {
     public static class ConstExpressionTestFunctions
     {
+        public class TestClass
+        {
+        }
+
+        [ConstExpression]
+        public static object ThrewObject(object t)
+        {
+            return t;
+        }
+
+        [ConstExpression]
+        public static TestClass ThrewTestClass(TestClass t)
+        {
+            return t;
+        }
+
         [ConstExpression]
         public static string Threw(string value)
         {

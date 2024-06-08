@@ -154,8 +154,8 @@ The `ConstExpression` attribute may only be attached to functions with the follo
     <tr>
       <td>bool</td>
       <td>enum</td>
+      <td>null</td>
       <td>struct<br/>- No reference type instances as members</td>
-      <td></td>
     </tr>
     <tr>
       <td>ReadOnlyArray&ltstring&gt</td>
@@ -178,8 +178,8 @@ The `ConstExpression` attribute may only be attached to functions with the follo
     <tr>
       <td>ReadOnlyArray&ltbool&gt</td>
       <td>ReadOnlyArray&ltenum&gt</td>
+      <td>ReadOnlyArray&ltnull&gt</td>
       <td>ReadOnlyArray&ltstruct&gt<br/>- No reference type instances as members</td>
-      <td></td>
     </tr>
     <tr>
       <td>ReadOnlyArray&ltReadOnlyArray&lt...&gt&gt</td>
@@ -236,6 +236,13 @@ int r = 200;
 MyConstExpression.Add(l, r);
 ```
 
+### Disabling ConstExpression
+You can disable ConstExpression with the following notation.
+```.cs.
+[assembly:IgnoreConstExpression]
+```
+This attribute can also be type or method specific.
+
 ## How to Use StaticExpression
 ### Normal usage
 #### Creating Assembly for StaticExpression
@@ -260,10 +267,10 @@ There are several limitations to performing runtime constant pre-computations.
 #### StaticExpression属性
 Only functions with the `StaticExpression` attribute are subject to runtime constant pre-computations
 
-#### static関数
+####  Static Function
 The `StaticExpression` attribute can only be attached to static functions.
 
-#### 引数/戻り値
+#### Arguments/Return Values
 The `StaticExpression` attribute can only be attached to functions with the following argument/return types.  
 Unlike `ConstExpression`, reflection types can be used.  
  <table>
@@ -288,12 +295,12 @@ Unlike `ConstExpression`, reflection types can be used.
     <tr>
       <td>bool</td>
       <td>enum</td>
+      <td>null</td>
       <td>struct<br/>- No reference type instances as members</td>
-      <td>Type</td>
     </tr>
     <tr>
       <td>MemberInfo</td>
-      <td>TypeInfo</td>
+      <td>Type/TypeInfo</td>
       <td>ConstructorInfo</td>
       <td>FieldInfo</td>
     </tr>
@@ -324,12 +331,12 @@ Unlike `ConstExpression`, reflection types can be used.
     <tr>
       <td>ReadOnlyArray&ltbool&gt</td>
       <td>ReadOnlyArray&ltenum&gt</td>
+      <td>ReadOnlyArray&ltnull&gt</td>
       <td>ReadOnlyArray&ltstruct&gt<br/>- No reference type instances as members</td>
-      <td>ReadOnlyArray&ltType&gt</td>
     </tr>
     <tr>
       <td>ReadOnlyArray&ltMemberInfo&gt</td>
-      <td>ReadOnlyArray&ltTypeInfo&gt</td>
+      <td>ReadOnlyArray&ltType/TypeInfo&gt</td>
       <td>ReadOnlyArray&ltConstructorInfo&gt</td>
       <td>ReadOnlyArray&ltFieldInfo&gt</td>
     </tr>
@@ -389,7 +396,7 @@ MyStaticExpression.Add(MyStaticExpression.MakeVector2(10, 20), MyStaticExpressio
 MyStaticExpression.Add(new Vector2(10, 20), new Vector2(30, 40));
 ```
 
-##### CalculationFailedWarningオプション
+##### CalculationFailedWarning option
 Setting the `ConstExpression` attribute to `CalculationFailedWarning=false` will prevent the warning from occurring when assigning a non-constant value to an argument.
 ```
 [StaticExpression(CalculationFailedWarning = false)]
@@ -402,7 +409,15 @@ public static int Add(int l, int r)
 MyStaticExpression.Add(l, r);
 ```
 
-### About ReadOnlyArray
+### Disabling StaticExpression
+You can disable StaticExpression with the following notation.
+```.cs.
+[assembly:IgnoreStaticExpression]
+```
+This attribute can also be type or method specific.
+
+
+## About ReadOnlyArray
 ReadOnlyArray is an immutable array prepared as a return constant for ConstExpression.  
 It inherits from IReadOnlyList and can be implicitly cast to ReadOnlySpan.  
 Implicit casts from arrays are also possible.  

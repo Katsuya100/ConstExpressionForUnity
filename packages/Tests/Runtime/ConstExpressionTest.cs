@@ -8,6 +8,19 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
     public class ConstExpressionTest
     {
         [Test]
+        public void Null()
+        {
+            Assert.AreEqual(ConstExpressionTestFunctions.ThrewObject(null), null);
+            Assert.AreEqual(ConstExpressionTestFunctions.ThrewTestClass(null), null);
+        }
+
+        [Test]
+        public void Box()
+        {
+            Assert.AreEqual(ConstExpressionTestFunctions.ThrewObject(10), 10);
+        }
+
+        [Test]
         public void String()
         {
             const string e1 = "hoge";

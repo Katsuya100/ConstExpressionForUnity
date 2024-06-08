@@ -154,8 +154,8 @@ public static class MyConstExpression
     <tr>
       <td>bool</td>
       <td>enum</td>
+      <td>null</td>
       <td>struct<br/>- 参照型インスタンスをメンバに持たないこと</td>
-      <td></td>
     </tr>
     <tr>
       <td>ReadOnlyArray&ltstring&gt</td>
@@ -234,6 +234,13 @@ public static int Add(int l, int r)
 MyConstExpression.Add(l, r);
 ```
 
+### ConstExpressionを無効化する
+以下の記法でConstExpressionを無効化できます。
+```.cs
+[assembly:IgnoreConstExpression]
+```
+このアトリビュートは型やメソッドに限定して指定することも可能です。
+
 ## StaticExpressionの使い方
 ### 通常の使用法
 #### 計算関数を実装する
@@ -286,12 +293,12 @@ public static class MyStaticExpression
     <tr>
       <td>bool</td>
       <td>enum</td>
+      <td>null</td>
       <td>struct<br/>- 参照型インスタンスをメンバに持たないこと</td>
-      <td>Type</td>
     </tr>
     <tr>
       <td>MemberInfo</td>
-      <td>TypeInfo</td>
+      <td>Type/TypeInfo</td>
       <td>ConstructorInfo</td>
       <td>FieldInfo</td>
     </tr>
@@ -322,12 +329,12 @@ public static class MyStaticExpression
     <tr>
       <td>ReadOnlyArray&ltbool&gt</td>
       <td>ReadOnlyArray&ltenum&gt</td>
+      <td>ReadOnlyArray&ltnull&gt</td>
       <td>ReadOnlyArray&ltstruct&gt<br/>- 参照型インスタンスをメンバに持たないこと</td>
-      <td>ReadOnlyArray&ltType&gt</td>
     </tr>
     <tr>
       <td>ReadOnlyArray&ltMemberInfo&gt</td>
-      <td>ReadOnlyArray&ltTypeInfo&gt</td>
+      <td>ReadOnlyArray&ltType/TypeInfo&gt</td>
       <td>ReadOnlyArray&ltConstructorInfo&gt</td>
       <td>ReadOnlyArray&ltFieldInfo&gt</td>
     </tr>
@@ -401,7 +408,15 @@ public static int Add(int l, int r)
 MyStaticExpression.Add(l, r);
 ```
 
-### ReadOnlyArrayについて
+### StaticExpressionを無効化する
+以下の記法でStaticExpressionを無効化できます。
+```.cs
+[assembly:IgnoreStaticExpression]
+```
+このアトリビュートは型やメソッドに限定して指定することも可能です。
+
+
+## ReadOnlyArrayについて
 ReadOnlyArrayはConstExpressionの戻り値定数として用意した不変の配列です。  
 IReadOnlyListを継承している他、ReadOnlySpanへの暗黙的キャストが可能です。  
 配列からの暗黙的キャストも可能です。  
