@@ -10,7 +10,7 @@
 ## 動作確認環境
 |  環境  |  バージョン  |
 | ---- | ---- |
-| Unity | 2021.3.38f1, 2022.3.20f1 |
+| Unity | 6000.0.51f1 |
 | .Net | 4.x, Standard 2.1 |
 
 ## ConstExpressionの実行例
@@ -80,7 +80,7 @@ public static class Test
 
 ## インストール方法
 ### ILPostProcessorCommonのインストール
-[ILPostProcessorCommon v2.3.0](https://github.com/Katsuya100/ILPostProcessorCommon/tree/ver2.3.0) を参照しインストールする。
+[ILPostProcessorCommon v2.4.0](https://github.com/Katsuya100/ILPostProcessorCommon/tree/ver2.4.0) を参照しインストールする。
 
 ### ConstExpressionForUnityのインストール
 1. [Window > Package Manager]を開く。

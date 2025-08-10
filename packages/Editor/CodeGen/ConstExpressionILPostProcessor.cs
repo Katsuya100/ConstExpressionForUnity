@@ -24,7 +24,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
         public override ILPostProcessor GetInstance() => this;
         public override bool WillProcess(ICompiledAssembly compiledAssembly)
         {
-            return true;
+            return compiledAssembly.References.Any(v => v.EndsWith("Katuusagi.ConstExpressionForUnity.dll"));
         }
 
         public override ILPostProcessResult Process(ICompiledAssembly compiledAssembly)
@@ -45,6 +45,8 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                     if (!ignoreConstExpressionAssembly || !ignoreStaticExpressionAssembly)
                     {
                         var mainModule = assembly.MainModule;
+                        _allowedStaticExpressionTypes.Add(mainModule.ImportReference(typeof(AppDomain)));
+                        _allowedStaticExpressionTypes.Add(mainModule.ImportReference(typeof(Assembly)));
                         _allowedStaticExpressionTypes.Add(mainModule.ImportReference(typeof(Type)));
                         _allowedStaticExpressionTypes.Add(mainModule.ImportReference(typeof(MemberInfo)));
                         _allowedStaticExpressionTypes.Add(mainModule.ImportReference(typeof(TypeInfo)));
@@ -119,17 +121,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                             }
                         }
 
-                        var pe  = new MemoryStream();
-                        var pdb = new MemoryStream();
-                        var writeParameter = new WriterParameters
-                        {
-                            SymbolWriterProvider = new PortablePdbWriterProvider(),
-                            SymbolStream         = pdb,
-                            WriteSymbols         = true
-                        };
-
-                        assembly.Write(pe, writeParameter);
-                        return new ILPostProcessResult(new InMemoryAssembly(pe.ToArray(), pdb.ToArray()), ILPPUtils.Logger.Messages);
+                        return compiledAssembly.GetResult(assembly);
                     }
                 }
             }
@@ -137,7 +129,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
             {
                 ILPPUtils.LogException(e);
             }
-            return new ILPostProcessResult(null, ILPPUtils.Logger.Messages);
+            return compiledAssembly.GetNullResult();
         }
 
         private void FindConstExprMethods(Dictionary<string, Delegate> result)
@@ -175,7 +167,7 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
             {
                 for (int i = 0; i < parameters.Length; ++i)
                 {
-                    if (!instruction.TryGetPushConstArgumentInstructions(i, out var value, argInstructions) ||
+                    if (!instruction.TryGetPushConstArgumentInstructions(method, i, out var value, argInstructions) ||
                         (value is FieldReference f && !_results.TryGetValue(f, out value)) ||
                         !ILPPUtils.TryCast(parameters[i].ParameterType, value, out value))
                     {
@@ -350,7 +342,8 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
             {
                 for (int i = 0; i < parameters.Count; ++i)
                 {
-                    if (!instruction.TryGetPushConstArgumentInstructions(i, out var value, argInstructions))
+                    if (!instruction.TryGetPushConstArgumentInstructions(method, i, out var value, argInstructions) ||
+                        (value is MethodReference m && !m.IsPublic()))
                     {
                         if (calculationFailedWarning)
                         {
@@ -393,8 +386,10 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
                 var loadLiteral = _staticTable.LoadValue(staticExpr, argInstructions);
                 instruction.OpCode = loadLiteral.OpCode;
                 instruction.Operand = loadLiteral.Operand;
+
                 foreach (var argInstruction in argInstructions)
                 {
+                    var op = argInstruction.Operand;
                     argInstruction.OpCode = OpCodes.Nop;
                     argInstruction.Operand = null;
                 }
@@ -531,6 +526,11 @@ namespace Katuusagi.ConstExpressionForUnity.Editor
             {
                 var fields = type.GetFields().Where(v => !v.IsStatic);
                 return fields.Select(v => v.FieldType).All(IsAllowStaticExpressionReturnType);
+            }
+
+            if (typeDef.IsDelegate())
+            {
+                return true;
             }
 
             if (_allowedStaticExpressionTypes.Contains(type))

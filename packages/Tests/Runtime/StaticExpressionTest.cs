@@ -363,6 +363,12 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         [Test]
         public void Reflection()
         {
+            var d = StaticExpressionTestFunctions.GetAppDomain();
+            Assert.AreEqual(d, AppDomain.CurrentDomain);
+
+            var a = StaticExpressionTestFunctions.GetAssembly("Katuusagi.ConstExpressionForUnity.Tests, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
+            Assert.AreEqual(a, typeof(StaticExpressionTestFunctions).Assembly);
+
             var t = StaticExpressionTestFunctions.GetNestedType(typeof(StaticExpressionTestFunctions), "ReflectionCheck");
             Assert.AreEqual(t.Name, "ReflectionCheck");
 
@@ -383,6 +389,12 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
 
             var member = StaticExpressionTestFunctions.GetMember(typeof(StaticExpressionTestFunctions.ReflectionCheck), "D");
             Assert.AreEqual(member.Name, "D");
+        }
+
+        [Test]
+        public void Delegate()
+        {
+            Assert.AreEqual(StaticExpressionTestFunctions.Threw(StaticExpressionTestFunctions.FindLargestPrimeRaw), (Func<int, int>)StaticExpressionTestFunctions.FindLargestPrimeRaw);
         }
 
         [Test]

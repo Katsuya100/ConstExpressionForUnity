@@ -12,7 +12,7 @@ With `StaticExpression`, the constant computation process is performed staticall
 ## System Requirements
 |  Environment  |  Version  |
 | ---- | ---- |
-| Unity | 2021.3.38f1, 2022.3.20f1 |
+| Unity | 6000.0.51f1 |
 | .Net | 4.x, Standard 2.1 |
 
 ## Example of ConstExpression execution
@@ -82,7 +82,7 @@ Since the computation itself disappears and only the result of the computation i
 
 ## How to install
 ### Installing ILPostProcessorCommon
-Refer to [ILPostProcessorCommon v2.3.0](https://github.com/Katsuya100/ILPostProcessorCommon/tree/ver2.3.0) for installation.
+Refer to [ILPostProcessorCommon v2.4.0](https://github.com/Katsuya100/ILPostProcessorCommon/tree/ver2.4.0) for installation.
 
 ### Installing ConstExpressionForUnity
 1. Open [Window > Package Manager].

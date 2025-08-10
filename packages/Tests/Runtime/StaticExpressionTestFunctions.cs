@@ -117,6 +117,12 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         }
 
         [StaticExpression]
+        public static Func<int, int> Threw(Func<int, int> value)
+        {
+            return value;
+        }
+
+        [StaticExpression]
         public static ReadOnlyArray<string> MakeArray(string e1, string e2, string e3)
         {
             return new string[] { e1, e2, e3 };
@@ -231,6 +237,18 @@ namespace Katuusagi.ConstExpressionForUnity.Tests
         public static float GetZ(Vector3 v)
         {
             return v.z;
+        }
+
+        [StaticExpression]
+        public static AppDomain GetAppDomain()
+        {
+            return AppDomain.CurrentDomain;
+        }
+
+        [StaticExpression]
+        public static Assembly GetAssembly(string name)
+        {
+            return Assembly.Load(name);
         }
 
         [StaticExpression]
