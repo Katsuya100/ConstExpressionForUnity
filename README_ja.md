@@ -297,8 +297,14 @@ public static class MyStaticExpression
       <td>struct<br/>- 参照型インスタンスをメンバに持たないこと</td>
     </tr>
     <tr>
+      <td>delegate<br/>- staticなpublicメンバに限る</td>
+      <td>AppDomain</td>
+      <td>Assembly</td>
+      <td>Type</td>
+    </tr>
+    <tr>
       <td>MemberInfo</td>
-      <td>Type/TypeInfo</td>
+      <td>TypeInfo</td>
       <td>ConstructorInfo</td>
       <td>FieldInfo</td>
     </tr>
@@ -333,8 +339,14 @@ public static class MyStaticExpression
       <td>ReadOnlyArray&ltstruct&gt<br/>- 参照型インスタンスをメンバに持たないこと</td>
     </tr>
     <tr>
+      <td>ReadOnlyArray&ltdelegate&gt<br/>- staticなpublicメンバに限る</td>
+      <td>ReadOnlyArray&ltAppDomain&gt</td>
+      <td>ReadOnlyArray&ltAssembly&gt</td>
+      <td>ReadOnlyArray&ltType&gt</td>
+    </tr>
+    <tr>
       <td>ReadOnlyArray&ltMemberInfo&gt</td>
-      <td>ReadOnlyArray&ltType/TypeInfo&gt</td>
+      <td>ReadOnlyArray&ltTypeInfo&gt</td>
       <td>ReadOnlyArray&ltConstructorInfo&gt</td>
       <td>ReadOnlyArray&ltFieldInfo&gt</td>
     </tr>
