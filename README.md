@@ -299,6 +299,12 @@ Unlike `ConstExpression`, reflection types can be used.
       <td>struct<br/>- No reference type instances as members</td>
     </tr>
     <tr>
+      <td>delegate<br/>- Only static public members</td>
+      <td>AppDomain</td>
+      <td>Assembly</td>
+      <td>Type</td>
+    </tr>
+    <tr>
       <td>MemberInfo</td>
       <td>Type/TypeInfo</td>
       <td>ConstructorInfo</td>
@@ -335,8 +341,14 @@ Unlike `ConstExpression`, reflection types can be used.
       <td>ReadOnlyArray&ltstruct&gt<br/>- No reference type instances as members</td>
     </tr>
     <tr>
+      <td>ReadOnlyArray&ltdelegate&gt<br/>- Only static public members</td>
+      <td>ReadOnlyArray&ltAppDomain&gt</td>
+      <td>ReadOnlyArray&ltAssembly&gt</td>
+      <td>ReadOnlyArray&ltType&gt</td>
+    </tr>
+    <tr>
       <td>ReadOnlyArray&ltMemberInfo&gt</td>
-      <td>ReadOnlyArray&ltType/TypeInfo&gt</td>
+      <td>ReadOnlyArray&ltTypeInfo&gt</td>
       <td>ReadOnlyArray&ltConstructorInfo&gt</td>
       <td>ReadOnlyArray&ltFieldInfo&gt</td>
     </tr>
