@@ -82,7 +82,7 @@ Since the computation itself disappears and only the result of the computation i
 
 ## How to install
 ### Installing ILPostProcessorCommon
-Refer to [ILPostProcessorCommon v2.4.0](https://github.com/Katsuya100/ILPostProcessorCommon/tree/ver2.4.0) for installation.
+Refer to [ILPostProcessorCommon v2.4.1](https://github.com/Katsuya100/ILPostProcessorCommon/tree/ver2.4.1) for installation.
 
 ### Installing ConstExpressionForUnity
 1. Open [Window > Package Manager].
